@@ -9,14 +9,19 @@ const app = express();
 
 const corsOptions = {
   origin: config.frontendOrigin,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true,
 };
+
 
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
+
+
+app.options('*', cors()); 
 
 // ROUTES
 import doctorRoutes from "./routes/doctor/doctorRoutes.js";
