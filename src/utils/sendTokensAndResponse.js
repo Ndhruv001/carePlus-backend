@@ -7,8 +7,8 @@ function sendTokensAndResponse(res, user, userType) {
 
   return res
     .status(200)
-    .cookie("accessToken", accessToken, httpOnlyOptions)
-    .cookie("refreshToken", refreshToken, httpOnlyOptions)
+    .cookie("accessToken", accessToken, { ...httpOnlyOptions, maxAge: 24 * 60 * 60 * 1000 })
+    .cookie("refreshToken", refreshToken, { ...httpOnlyOptions, maxAge: 30 * 24 * 60 * 60 * 1000 })
     .json({
       success: true,
       data: userType,
