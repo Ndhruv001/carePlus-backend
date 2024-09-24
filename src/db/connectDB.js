@@ -3,10 +3,11 @@ import config from "../../config/config.js";
 
 const pool = mysql
   .createPool({
-    host: config.mysqlHost,
-    user: config.mysqlUser,
-    password: config.mysqlPassword,
-    database: config.mysqlDB,
+    host: config.dbHost,
+    user: config.dbUser,
+    password: config.dbPassword,
+    database: config.dbName,
+    port: config.dbPort
   })
   .promise();
 
