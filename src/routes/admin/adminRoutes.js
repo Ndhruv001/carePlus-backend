@@ -22,6 +22,7 @@ import {
 } from "../../controllers/admin/doctorControllers.js";
 import { getPatientsCount } from "../../controllers/admin/patientControllers.js";
 import { addNewAdmin } from "../../controllers/admin/adminControllers.js";
+import { downloadSynopsis } from "../../controllers/admin/reportControllers.js";
 
 const router = express.Router();
 
@@ -76,5 +77,8 @@ router.get("/doctors/popular", verifyJWT("admin"), getPopularDoctorsList);
 
 // ADMIN ROUTES
 router.post("/new-admin/add", verifyJWT("admin"), addNewAdmin); // & create validation
+
+// REPORTS ROUTES
+router.get('/reports/download-synopsis', verifyJWT("admin"), downloadSynopsis)
 
 export default router;
