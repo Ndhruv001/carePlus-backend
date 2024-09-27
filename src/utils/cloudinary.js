@@ -1,20 +1,32 @@
 import cloudinary from "../../config/cloudinary.js";
-import fs from "fs";
 
-async function uploadOnCloudinary(localFilePath) {
-  if (!localFilePath) {
+async function uploadOnCloudinary(fileBuffer, originalName) {
+  if (!fileBuffer) {
     return null;
   }
   try {
-    const response = await cloudinary.uploader.upload(localFilePath, {
-      resource_type: "auto",
-    });
-    fs.unlinkSync(localFilePath);
-    return response;
+    // Upload the file directly from the memory buffer to Cloudinary
+    const response = await cloudinary.uploader.upload_stream(
+      {
+        resource_type: "auto",
+        public_id: sanitize(originalName), // Sanitize the original name for Cloudinary
+      },
+      (error, result) => {
+        if (error) {
+          console.log("🚀 ~ uploadOnCloudinary ~ error:", error.message);
+          throw new Error("Cloudinary error: " + error.message);
+        }
+        return result;
+      }
+    );
+    
+    // Pipe the file stream to Cloudinary
+    const streamifier = require("streamifier"); // Convert buffer to stream
+    streamifier.createReadStream(fileBuffer).pipe(response);
+
   } catch (error) {
-    console.log("🚀 ~ uploadOnCloudinary ~ error:", error.message);
-    fs.unlinkSync(localFilePath);
-    throw new Error("Cloudinary error: ", error.message);
+    console.error("🚀 ~ uploadOnCloudinary ~ error:", error.message);
+    throw new Error("Cloudinary error: " + error.message);
   }
 }
 
