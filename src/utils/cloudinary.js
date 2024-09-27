@@ -1,4 +1,5 @@
 import cloudinary from "../../config/cloudinary.js";
+import sanitize from 'sanitize-filename'
 
 async function uploadOnCloudinary(fileBuffer, originalName) {
   if (!fileBuffer) {

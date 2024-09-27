@@ -1,4 +1,3 @@
-import sanitize from "sanitize-filename";
 import multer from "multer";
 
 const MAX_FILENAME_LENGTH = 100;
