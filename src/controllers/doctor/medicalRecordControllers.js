@@ -60,6 +60,8 @@ async function addMedicalRecord(req, res) {
     dosage,
     medical_record,
   } = req.body;
+    console.log("🚀 ~ addMedicalRecord ~ dosage:", dosage)
+    console.log("🚀 ~ addMedicalRecord ~ medication_name:", medication_name)
   const { id } = req.user;
 
   try {

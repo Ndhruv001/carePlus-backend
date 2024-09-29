@@ -66,9 +66,10 @@ async function getMedicalRecordsListByPatientIdQuery({
 async function addMedicalRecordQuery({
   appointment_id,
   patient_id,
-  doctor_id,
+  medication_name,
+  dosage,
   medical_record,
-  prescription,
+  doctor_id,
 }) {
   const connection = await pool.getConnection(); // Acquire a connection from the pool
 
@@ -101,7 +102,7 @@ async function addMedicalRecordQuery({
     );
 
     // Step 3: Insert the prescription if it exists
-    if (prescription && prescription.medication_name && prescription.dosage) {
+    if (medication_name && dosage) {
       await connection.execute(
         `
         INSERT INTO prescriptions (patient_id, doctor_id, medication_name, dosage)
@@ -110,8 +111,8 @@ async function addMedicalRecordQuery({
         [
           patient_id,
           doctor_id,
-          prescription.medication_name,
-          prescription.dosage,
+          medication_name,
+          dosage,
         ]
       );
     }
